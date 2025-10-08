@@ -1,49 +1,48 @@
 Referencia: 1
-Monto: 194979.52
-PAN: 3782 822463 10005
-Franquicia: American Express
-CVV: 1483
-Fecha: 07/80
-
-Referencia: 2
-Monto: 19499.68
+Monto: 61949.60
 PAN: 4111 1111 1111 1111
 Franquicia: Visa
-CVV: 1879
-Fecha: 07/90
+CVV: 191
+Fecha de Vencimiento: 02/60
+Estado: Activa
+
+Referencia: 2
+Monto: 21949.20
+PAN: 4111 1111 1111 1111
+Franquicia: Visa
+CVV: 190
+Fecha de Vencimiento: 04/40
+Estado: Activa
 
 Referencia: 3
-Monto: 14989.89
-PAN: 6011 1111 1111 1117
-Franquicia: Discover
-CVV: 1790
-Fecha: 05/90
+Monto: 19498.50
+PAN: 4111 1111 1111 1111
+Franquicia: Visa
+CVV: 191
+Fecha de Vencimiento: 05/90
+Estado: Activa
 
 Referencia: 4
-Monto: 79499.68
-PAN: 3782 822463 10005
-Franquicia: American Express
-CVV: 4794
-Fecha: 01/40
+Monto: 18499.00
+PAN: 4111 1111 1111 1111
+Franquicia: Visa
+CVV: 1949
+Fecha de Vencimiento: 02/50
+Estado: Activa
 
 Referencia: 5
-Monto: 2649.60
-PAN: 5555-5555-5555-4444
-Franquicia: MasterCard
-CVV: 0781
-Fecha: 02/30
+Monto: 59499.50
+PAN: 6011 1111 1111 1117
+Franquicia: Discover
+CVV: 2310
+Fecha de Vencimiento: 05/60
+Estado: Anulada
 
 Referencia: 6
-Monto: 4792.56
-PAN: 3566 0020 2036 0505
-Franquicia: JCB
-CVV: 4789
-Fecha: 04/70
-
-Referencia: 7
-Monto: 4991566.48
-PAN: 38520000023237
-Franquicia: Diners Club
-CVV: 4789
-Fecha: 01/30
+Monto: 1949.80
+PAN: 5105-1051-0510-5100
+Franquicia: MasterCard
+CVV: 2412
+Fecha de Vencimiento: 05/90
+Estado: Anulada
 
