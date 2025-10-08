@@ -4,9 +4,10 @@
 typedef struct {
     double monto_compra;
     char pan[32];
-    int cvv;
+    char cvv[5];
     char fecha_Expiracion[6];
     int referencia;
+    char franquicia[20];
 } compra;
 
 #define MAX_COMPRAS 20
@@ -17,5 +18,8 @@ void imprimir(const compra *com);
 void almacenamiento_archivo(compra *compras, int cantidad);
 void registrar_compras();
 int validar_fecha_expiracion(const char *fecha);
+int validar_tarjeta(const char *pan);
+int validar_cvv(const char *cvv);
+void hallarfranquicia(const char *pan, char *franquicia);
 
 #endif
