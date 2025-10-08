@@ -1,5 +1,76 @@
-Aplicación Financiera C
-======================
+# Aplicación Financiera C
 
-Proyecto pequeño para gestionar cuentas y transacciones de forma didáctica.
-Código claro y fácil de extender; pensado para pruebas y aprendizaje.
+Proyecto pequeño y didáctico para registrar y gestionar transacciones (compras) desde la consola.
+Almacena las compras en un archivo de texto (`compras.txt`) y permite anularlas por referencia.
+
+## Resumen
+
+Esta aplicación en C ofrece un menú por consola con operaciones básicas:
+
+- Registrar compras.
+- Anular compras (por referencia, validando últimos 4 dígitos del PAN y CVV).
+- Opciones de cierre/reeimpresión/reportes (menú presente, sin implementación completa).
+
+El almacenamiento es un archivo de texto plano (`compras.txt`). Está pensada para aprendizaje y pruebas.
+
+## Estructura de archivos
+
+- `main.c` — Interfaz del menú principal y flujo de la aplicación.
+- `compra.h` — Definición del tipo `compra` y prototipos públicos.
+- `compra.c` — Lógica para ingreso, validación (PAN, CVV, fecha), determinación de franquicia, impresión y almacenamiento de compras en `compras.txt`.
+- `anulacion.h` — Prototipo de la función de anulación.
+- `anulacion.c` — Busca compras por referencia y cambia el `Estado` a `Anulada` si coinciden los datos.
+- `compras.txt` — Archivo de datos (ejemplo) con compras registradas.
+
+## Formato en `compras.txt`
+
+Cada compra se guarda en el archivo con el siguiente bloque exacto:
+
+```
+Referencia: <int>
+Monto: <float con 2 decimales>
+PAN: <cadena>
+Franquicia: <cadena>
+CVV: <cadena>
+Fecha de Vencimiento: <MM/AA>
+Estado: <Activa|Anulada>
+
+```
+
+Ejemplo:
+
+```
+Referencia: 1
+Monto: 61949.60
+PAN: 4111 1111 1111 1111
+Franquicia: Visa
+CVV: 191
+Fecha de Vencimiento: 02/60
+Estado: Activa
+
+```
+
+Funciones clave:
+
+- `void registrar_compras();`
+	- Interactúa por consola para ingresar compras y las añade a `compras.txt`.
+	- Límite: `MAX_COMPRAS` (20).
+
+- `int validar_tarjeta(const char *pan);`
+	- Implementa Luhn. Devuelve 1 si el PAN es válido, 0 si no.
+
+- `int validar_fecha_expiracion(const char *fecha);`
+	- Recibe `MM/AA`, compara con la fecha actual y devuelve 1 si no está vencida.
+
+- `int validar_cvv(const char *cvv);`
+	- Acepta 3 o 4 dígitos.
+
+- `void hallarfranquicia(const char *pan, char *franquicia);`
+	- Determina la franquicia (Visa, MasterCard, Amex, Discover, etc.) por prefijo.
+
+- `int anular_compra(int referencia, const char *ultimopan, const char *cvv);`
+	- Busca por `referencia`, compara últimos 4 dígitos del PAN y el CVV; si coinciden, marca `Estado` como `Anulada`.
+
+---
+
+Documento generado con el objetivo de facilitar la comprensión y evolución del proyecto.

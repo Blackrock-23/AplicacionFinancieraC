@@ -46,3 +46,59 @@ CVV: 2412
 Fecha de Vencimiento: 05/90
 Estado: Anulada
 
+Referencia: 7
+Monto: 229491.50
+PAN: 4000051230000072
+Franquicia: Visa
+CVV: 0000
+Fecha de Vencimiento: 12/90
+Estado: Activa
+
+Referencia: 8
+Monto: 14499.50
+PAN: 4000051230000072
+Franquicia: Visa
+CVV: 0001
+Fecha de Vencimiento: 04/90
+Estado: Anulada
+
+Referencia: 9
+Monto: 1.20
+PAN: 4000051230000072
+Franquicia: Visa
+CVV: 0148
+Fecha de Vencimiento: 06/90
+Estado: Anulada
+
+Referencia: 10
+Monto: 5000000000.00
+PAN: 5555555555554444
+Franquicia: MasterCard
+CVV: 0106
+Fecha de Vencimiento: 05/90
+Estado: Activa
+
+Referencia: 11
+Monto: 494194194.50
+PAN: 5555555555554444
+Franquicia: MasterCard
+CVV: 0601
+Fecha de Vencimiento: 05/40
+Estado: Anulada
+
+Referencia: 12
+Monto: 9494.20
+PAN: 5555555555554444
+Franquicia: MasterCard
+CVV: 2310
+Fecha de Vencimiento: 04/90
+Estado: Activa
+
+Referencia: 13
+Monto: 2194949350.00
+PAN: 5555555555554444
+Franquicia: MasterCard
+CVV: 456
+Fecha de Vencimiento: 04/90
+Estado: Anulada
+

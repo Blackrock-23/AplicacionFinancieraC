@@ -226,6 +226,11 @@ void registrar_compras()
         {
             printf("Desea registrar otra compra (1=Si, 0=No): ");
             scanf("%d", &agregar);
+            while(agregar != 0 && agregar != 1)
+            {
+                printf("Opcion invalida. Ingrese 1 para Si o 0 para No: ");
+                scanf("%d", &agregar);
+            }
             getchar();
         }
         else
