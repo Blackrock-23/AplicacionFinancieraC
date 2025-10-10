@@ -1,6 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "compra.h"
 #include "anulacion.h"
+#include "reeimpresion.h"
+#include "reportes.h"
+#include "cierre.h"
 
 int main(){
 
@@ -10,12 +14,13 @@ int main(){
         printf("---------------------------------------------\n");
         printf("               1. COMPRA\n");
         printf("               2. ANULACION\n");
-        printf("               3. CIERRE\n");
-        printf("               4. REEIMPRESION\n");
-        printf("               5. REPORTES\n");
+        printf("               3. REEIMPRESION\n");
+        printf("               4. REPORTES\n");
+        printf("               5. CIERRE\n");
         printf("               6. SALIR\n");
         printf("Seleccione una opcion: ");
         scanf("%d", &opcion);
+        system("cls");
         getchar(); // Limpiar el buffer
 
         switch (opcion) {
@@ -42,8 +47,14 @@ int main(){
                 }
                 break;
             case 3:
+                reeimprimir_compras();
+                break;
             case 4:
+                generar_reportes();
+                break;
             case 5:
+                realizar_cierre();
+                break;
             case 6:
                 printf("Saliendo de la aplicacion...\n");
                 break;

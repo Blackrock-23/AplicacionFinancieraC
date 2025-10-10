@@ -11,7 +11,7 @@ void ingreso_dato(compra *com)
     printf("--- Nueva compra ---");
     printf("\nIngrese el monto de la compra en dolares (00.00): ");
     scanf("%lf", &com->monto_compra);
-    getchar();// Limpiar el buffer 
+    getchar(); // Limpiar el buffer
 
     printf("Ingrese el PAN(Numero de tarjeta sin puntos ni letras): ");
     gets(com->pan);
@@ -36,7 +36,6 @@ void ingreso_dato(compra *com)
     // Determinar la franquicia
     hallarfranquicia(com->pan, com->franquicia);
 
-
     printf("Ingrese la fecha de expiracion (MM/AA): ");
     gets(com->fecha_Expiracion);
 
@@ -52,14 +51,15 @@ void ingreso_dato(compra *com)
 }
 
 // Activar la compra
-void estadoTransaccion(compra *com) {
+void estadoTransaccion(compra *com)
+{
     strcpy(com->estado, "Activa");
 }
 
 // Hallar la franquicia de la tarjeta
 void hallarfranquicia(const char *pan, char *franquicia)
 {
-    
+
     if (pan[0] == '4')
     {
         strcpy(franquicia, "Visa");
@@ -92,7 +92,6 @@ void hallarfranquicia(const char *pan, char *franquicia)
     }
 }
 
-
 // validar el cvv
 int validar_cvv(const char *cvv)
 {
@@ -107,6 +106,16 @@ int validar_cvv(const char *cvv)
             return 0;
     }
 
+    return 1;
+}
+int es_numero(const char *cadena)
+{
+    int longitud = (int)strlen(cadena);
+    for (int i = 0; i < longitud; i++)
+    {
+        if (!isdigit((unsigned char)cadena[i]))
+            return 0;
+    }
     return 1;
 }
 
@@ -128,7 +137,7 @@ void imprimir(const compra *com)
 void almacenamiento_archivo(compra *compras, int cantidad)
 {
 
-    // Abrir el archivo en modo append
+    // Abrir el archivo
     FILE *archivo = fopen("compras.txt", "a");
     if (!archivo)
     {
@@ -198,39 +207,52 @@ void registrar_compras()
     }
 
     int agregar = 1;
-
-    //Guardar nuevas compras
+    char entrada[10];
+    // Guardar nuevas compras
     while (agregar && cantidad < MAX_COMPRAS)
     {
-        //Incrementar la referencia
+        // Incrementar la referencia
         compras[0].referencia = cantidad + 1;
 
         // Ingresar los datos de la compra
         ingreso_dato(&compras[0]);
 
+        pan_unido(compras[0].pan);
+
         // Guardar la compra en el archivo
         fprintf(archivo, "Referencia: %d\nMonto: %.2f\nPAN: %s\nFranquicia: %s\nCVV: %s\nFecha de Vencimiento: %s\nEstado: %s\n\n",
                 compras[0].referencia, compras[0].monto_compra,
-                compras[0].pan,compras[0].franquicia, 
+                compras[0].pan, compras[0].franquicia,
                 compras[0].cvv, compras[0].fecha_Expiracion,
                 compras[0].estado);
 
         cantidad++;
+        system("cls");
         printf("Compra guardada (%d/20)\n", cantidad);
 
         // Mostrar los datos ingresados
         imprimir(compras);
 
-        //Verificar si no se ha alcanzado el limite
+        // Verificar si no se ha alcanzado el limite
         if (cantidad < MAX_COMPRAS)
         {
-            printf("Desea registrar otra compra (1=Si, 0=No): ");
-            scanf("%d", &agregar);
-            while(agregar != 0 && agregar != 1)
+
+            do
             {
-                printf("Opcion invalida. Ingrese 1 para Si o 0 para No: ");
-                scanf("%d", &agregar);
-            }
+                printf("Desea registrar otra compra (1=Si, 0=No): ");
+                scanf("%s", entrada);
+
+                if (isdigit(entrada[0]) && entrada[1] == '\0')
+                    agregar = entrada[0] - '0';
+                else
+                    agregar = -1;
+
+                if (agregar != 0 && agregar != 1)
+                    printf("Opcion invalida. Ingrese 1 o 0.\n");
+
+            } while (agregar != 0 && agregar != 1);
+
+            system("cls");
             getchar();
         }
         else
@@ -262,7 +284,7 @@ int validar_fecha_expiracion(const char *fecha)
         return 0;
     }
 
-    // Comprobar mes 
+    // Comprobar mes
     if (mes < 1 || mes > 12)
     {
         printf("Mes invalido.\n");
@@ -272,7 +294,7 @@ int validar_fecha_expiracion(const char *fecha)
     // Comprobar si la tarjeta está vencida
     if (anio < anio_actual || (anio == anio_actual && mes < mes_actual))
     {
-        printf("La tarjeta está vencida (%02d/%02d).\n", mes, anio);
+        printf("La tarjeta esta vencida (%02d/%02d).\n", mes, anio);
         return 0;
     }
 
@@ -335,4 +357,33 @@ int validar_tarjeta(const char *pan)
     }
     else
         return 0;
+}
+
+int pan_unido(char *pan)
+{
+    char cadenaDigitos[64];
+    int cantidadDijitos = 0;
+
+    for (int i = 0; pan[i] != '\0'; i++)
+    {
+        char c = pan[i];
+        if (isdigit((unsigned char)c))
+        {
+            if (cantidadDijitos < (int)sizeof(cadenaDigitos) - 1)
+                cadenaDigitos[cantidadDijitos++] = c;
+            else
+                return 0;
+        }
+        else if (c == ' ' || c == '-')
+        {
+            continue;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    cadenaDigitos[cantidadDijitos] = '\0';
+    strcpy(pan, cadenaDigitos);
+    return 1;
 }

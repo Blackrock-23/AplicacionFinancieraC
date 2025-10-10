@@ -27,5 +27,7 @@ int validar_tarjeta(const char *pan);
 int validar_cvv(const char *cvv);
 void hallarfranquicia(const char *pan, char *franquicia);
 void estadoTransaccion(compra *com);
+int pan_unido( char *pan);
+int es_numero(const char *cadena);
 
 #endif
