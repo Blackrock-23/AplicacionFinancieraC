@@ -21,7 +21,7 @@ int main(){
         printf("Seleccione una opcion: ");
         scanf("%d", &opcion);
         system("cls");
-        getchar(); // Limpiar el buffer
+        getchar(); 
 
         switch (opcion) {
             case 1:
@@ -35,7 +35,7 @@ int main(){
 
                     printf("Ingrese la referencia de la compra a anular: ");
                     scanf("%d", &referencia);
-                    getchar(); // Limpiar el buffer
+                    getchar(); 
 
                     printf("Ingrese los ultimos 4 digitos del PAN: ");
                     gets(ultimopan);
