@@ -8,10 +8,26 @@
 // Ingreso de datos de la compra
 void ingreso_dato(compra *com)
 {
-    printf("--- Nueva compra ---");
-    printf("\nIngrese el monto de la compra en dolares (00.00): ");
-    scanf("%lf", &com->monto_compra);
-    getchar(); // Limpiar el buffer
+    printf("--- Nueva compra ---\n");
+
+    char entrada[32];
+    do
+    {
+        printf("Ingrese el monto de la compra en dolares (00.00): ");
+        scanf("%s", entrada);
+
+        //se llama a la funcion validar monto
+        if (validar_monto(entrada))
+        {
+            com->monto_compra = atof(entrada);
+            break;
+        }
+        else
+        {
+            printf("Monto invalido.\n");
+        }
+    } while (1);
+    getchar();
 
     printf("Ingrese el PAN(Numero de tarjeta sin puntos ni letras): ");
     gets(com->pan);
@@ -54,6 +70,58 @@ void ingreso_dato(compra *com)
 void estadoTransaccion(compra *com)
 {
     strcpy(com->estado, "Activa");
+}
+
+int validar_monto(char *monto_str)
+{
+    int antes = 0, despues = 0;
+    int punto_encontrado = 0;
+
+    // Validar estructura
+    for (int i = 0; monto_str[i] != '\0'; i++)
+    {
+        char c = monto_str[i];
+        if (isdigit((unsigned char)c))
+        {
+            if (!punto_encontrado)
+                antes++;
+            else
+                despues++;
+        }
+        else if (c == '.')
+        {
+            if (punto_encontrado)
+                return 0; // más de un punto
+            punto_encontrado = 1;
+        }
+        else
+        {
+            return 0; // carácter no permitido
+        }
+    }
+
+    // Si no hay punto, agregar ".00"
+    if (!punto_encontrado)
+    {
+        strcat(monto_str, ".00");
+        punto_encontrado = 1;
+        despues = 2;
+    }
+
+    // Si tiene 1 decimal → agregar un 0
+    else if (despues == 1)
+    {
+        strcat(monto_str, "0");
+        despues = 2;
+    }
+
+    // Validaciones finales
+    if (antes == 0 || antes > 10)
+        return 0;
+    if (despues != 2)
+        return 0;
+
+    return 1;
 }
 
 // Hallar la franquicia de la tarjeta
@@ -120,17 +188,26 @@ int es_numero(const char *cadena)
 }
 
 // imprimir los datos
-void imprimir(const compra *com)
+void imprimir(const compra compras[], int cantidad)
 {
-    printf("--- Datos de la compra ---");
-    printf("\nMonto: %.2f\n", com->monto_compra);
-    printf("Referencia: %d\n", com->referencia);
-    printf("PAN: %s\n", com->pan);
-    printf("Franquicia: %s\n", com->franquicia);
-    printf("CVV: %s\n", com->cvv);
-    printf("Fecha de vencimiento: %s\n", com->fecha_Expiracion);
-    printf("Estado: %s\n", com->estado);
-    printf("\n-------------------------\n");
+    printf("===============================================================================================\n");
+    printf("%-5s %-13s %-15s %-18s %-6s %-8s %-8s\n",
+           "Ref", "Monto", "Franquicia", "PAN", "CVV", "Fecha", "Estado");
+    printf("===============================================================================================\n");
+
+    // Filas de datos
+    for (int i = cantidad - 1; i >= 0; i--)
+    {
+        printf("%-5d %-13.2lf %-15s %-18s %-6s %-8s %-8s\n",
+               compras[i].referencia,
+               compras[i].monto_compra,
+               compras[i].franquicia,
+               compras[i].pan,
+               compras[i].cvv,
+               compras[i].fecha_Expiracion,
+               compras[i].estado);
+    }
+    printf("===============================================================================================\n");
 }
 
 // Almacenar el archivo
@@ -231,7 +308,7 @@ void registrar_compras()
         printf("Compra guardada (%d/20)\n", cantidad);
 
         // Mostrar los datos ingresados
-        imprimir(compras);
+        imprimir(&compras[0], 1);
 
         // Verificar si no se ha alcanzado el limite
         if (cantidad < MAX_COMPRAS)

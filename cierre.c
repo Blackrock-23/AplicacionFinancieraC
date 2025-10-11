@@ -31,8 +31,10 @@ int realizar_cierre()
     if (opcion == 's' || opcion == 'S')
     {
         system("cls");
-        if (remove(ARCHIVO) == 0)
+        FILE *archivo = fopen(ARCHIVO, "w");
+        if (archivo != NULL)
         {
+            fclose(archivo);
             printf("Cierre realizado. Todas las compras han sido borradas.\n");
         }
         else
