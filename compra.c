@@ -16,7 +16,7 @@ void ingreso_dato(compra *com)
         printf("Ingrese el monto de la compra en dolares (00.00): ");
         scanf("%s", entrada);
 
-        //se llama a la funcion validar monto
+        // se llama a la funcion validar monto
         if (validar_monto(entrada))
         {
             com->monto_compra = atof(entrada);
@@ -29,7 +29,7 @@ void ingreso_dato(compra *com)
     } while (1);
     getchar();
 
-    printf("Ingrese el PAN(Numero de tarjeta sin puntos ni letras): ");
+    printf("Ingrese el PAN  (Numero de tarjeta sin puntos ni letras): ");
     gets(com->pan);
 
     // Validar el PAN
@@ -74,6 +74,7 @@ void estadoTransaccion(compra *com)
 
 int validar_monto(char *monto_str)
 {
+
     int antes = 0, despues = 0;
     int punto_encontrado = 0;
 
@@ -210,40 +211,10 @@ void imprimir(const compra compras[], int cantidad)
     printf("===============================================================================================\n");
 }
 
-// Almacenar el archivo
-void almacenamiento_archivo(compra *compras, int cantidad)
-{
-
-    // Abrir el archivo
-    FILE *archivo = fopen("compras.txt", "a");
-    if (!archivo)
-    {
-        printf("Error al abrir el archivo");
-        return;
-    }
-
-    // Escribir cada compra en el archivo
-    for (int i = 0; i < cantidad; i++)
-    {
-
-        fprintf(archivo, "Numero de Referencia: %i\n\n", compras[i].referencia);
-        fprintf(archivo, "Monto: %.2f\n", compras[i].monto_compra);
-        fprintf(archivo, "PAN: %s\n", compras[i].pan);
-        fprintf(archivo, "Franquicia: %s\n", compras[i].franquicia);
-        fprintf(archivo, "CVV: %s\n", compras[i].cvv);
-        fprintf(archivo, "Fecha de vencimiento: %s\n\n", compras[i].fecha_Expiracion);
-        fprintf(archivo, "Estado: %s\n", compras[i].estado);
-    }
-
-    // Cerrar el archivo
-    fclose(archivo);
-    printf("Compras guardadas en 'compras.txt'");
-}
-
 // Registrar las compras (Es la funcion principal)
 void registrar_compras()
 {
-    FILE *archivo = fopen(ARCHIVO, "a+");
+    FILE *archivo = fopen(ARCHIVO, "ab+");
     if (!archivo)
     {
         printf("Error al abrir archivo");
@@ -257,12 +228,9 @@ void registrar_compras()
     rewind(archivo);
 
     // Contar las compras existentes en el archivo.
-    // El formato debe coincidir exactamente con lo que se escribe en el archivo (nota la capitalización
-    // y ausencia de espacios extra antes de 'Estado').
-    while (fscanf(archivo, "Referencia: %d\nMonto: %lf\nPAN: %31[^\n]\nFranquicia: %19[^\n]\nCVV: %4[^\n]\nFecha de Vencimiento: %5[^\n]\nEstado: %9[^\n]\n\n",
-                  &temp.referencia, &temp.monto_compra, temp.pan, temp.franquicia, temp.cvv, temp.fecha_Expiracion, temp.estado) == 7)
+    while (fread(&temp, sizeof(compra), 1, archivo) == 1)
     {
-        // Cada compra leida incrementa el contador
+        // Cada compra leída incrementa el contador
         cantidad++;
     }
 
@@ -288,6 +256,7 @@ void registrar_compras()
     // Guardar nuevas compras
     while (agregar && cantidad < MAX_COMPRAS)
     {
+
         // Incrementar la referencia
         compras[0].referencia = cantidad + 1;
 
@@ -297,11 +266,7 @@ void registrar_compras()
         pan_unido(compras[0].pan);
 
         // Guardar la compra en el archivo
-        fprintf(archivo, "Referencia: %d\nMonto: %.2f\nPAN: %s\nFranquicia: %s\nCVV: %s\nFecha de Vencimiento: %s\nEstado: %s\n\n",
-                compras[0].referencia, compras[0].monto_compra,
-                compras[0].pan, compras[0].franquicia,
-                compras[0].cvv, compras[0].fecha_Expiracion,
-                compras[0].estado);
+        fwrite(&compras[0], sizeof(compra), 1, archivo);
 
         cantidad++;
         system("cls");
