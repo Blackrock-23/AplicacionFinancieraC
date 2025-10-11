@@ -1,11 +1,12 @@
 #include "anulacion.h"
 #include "compra.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 int anular_compra(int referencia, const char *ultimopan, const char *cvv) {
 
-    // Abrir el archivo para lectura (se reescribirá posteriormente con "w" después de modificar)
+    // Abrir el archivo para lectura 
     FILE *archivo = fopen(ARCHIVO, "r");
     if (!archivo) {
         printf("Error al abrir el archivo\n");
@@ -71,6 +72,7 @@ int anular_compra(int referencia, const char *ultimopan, const char *cvv) {
     }
 
     fclose(archivo);
+    system("cls");
 
     printf("Compra anulada correctamente.\n");
     return 1;
