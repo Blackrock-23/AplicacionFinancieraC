@@ -5,9 +5,11 @@
 #include <stdio.h>
 #include <string.h>
 
-int generar_reportes(){
+int generar_reportes()
+{
     FILE *archivo = fopen(ARCHIVO, "r");
-    if (!archivo) {
+    if (!archivo)
+    {
         printf("Error al abrir el archivo\n");
         return 0;
     }
@@ -17,27 +19,27 @@ int generar_reportes(){
     int activas = 0;
     double total_monto = 0.0;
 
-    while (fscanf(archivo,
-                  "Referencia: %d\nMonto: %lf\nPAN: %31[^\n]\nFranquicia: %19[^\n]\nCVV: %4[^\n]\nFecha de Vencimiento: %5[^\n]\nEstado: %9[^\n]\n\n",
-                  &compras[cantidad].referencia,
-                  &compras[cantidad].monto_compra,
-                  compras[cantidad].pan,
-                  compras[cantidad].franquicia,
-                  compras[cantidad].cvv,
-                  compras[cantidad].fecha_Expiracion,
-                  compras[cantidad].estado) == 7) {
-        total_monto += compras[cantidad].monto_compra;
-        if (strcmp(compras[cantidad].estado, "Anulada") == 0) {
+    while (fread(&compras[cantidad], sizeof(compra), 1, archivo) == 1)
+    {
+        
+
+        if (strcmp(compras[cantidad].estado, "Anulada") == 0)
+        {
             anuladas++;
-        } else if (strcmp(compras[cantidad].estado, "Activa") == 0) {
+        }
+        else if (strcmp(compras[cantidad].estado, "Activa") == 0)
+        {
+            total_monto += compras[cantidad].monto_compra;
             activas++;
         }
+
         cantidad++;
         if (cantidad >= MAX_COMPRAS)
             break;
     }
     fclose(archivo);
-    if (cantidad == 0) {
+    if (cantidad == 0)
+    {
         printf("No hay compras registradas.\n");
         return 0;
     }
@@ -48,5 +50,4 @@ int generar_reportes(){
     printf("Monto total de todas las compras: %.2lf\n", total_monto);
     printf("------------------------------\n");
     return 1;
-
 }
