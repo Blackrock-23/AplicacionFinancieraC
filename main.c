@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "compra.h"
 #include "anulacion.h"
 #include "reimpresion.h"
@@ -9,6 +10,7 @@
 int main(){
 
     int opcion;
+    char entrada[10];
     do {
         printf("--- BIENVENIDO A LA APLICACION FINANCIERA ---\n");
         printf("---------------------------------------------\n");
@@ -19,9 +21,16 @@ int main(){
         printf("               5. CIERRE\n");
         printf("               6. SALIR\n");
         printf("Seleccione una opcion: ");
-        scanf("%d", &opcion);
+        gets(entrada);
+
+        // Validamos que la entrada sea un solo caracter y este entre '1' y '6'
+        if (strlen(entrada) == 1 && entrada[0] >= '1' && entrada[0] <= '6') {
+            opcion = entrada[0] - '0'; 
+        } else {
+            opcion = 0; 
+        }
+
         system("cls");
-        getchar(); 
 
         switch (opcion) {
             case 1:
