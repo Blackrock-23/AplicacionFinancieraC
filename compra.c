@@ -19,6 +19,7 @@ void ingreso_dato(compra *com)
         // se llama a la funcion validar monto
         if (validar_monto(entrada))
         {
+            // atof convierte la cadena a double
             com->monto_compra = atof(entrada);
             break;
         }
@@ -29,6 +30,7 @@ void ingreso_dato(compra *com)
     } while (1);
     getchar();
 
+    
     printf("Ingrese el PAN  (Numero de tarjeta sin puntos ni letras): ");
     gets(com->pan);
 
@@ -72,16 +74,19 @@ void estadoTransaccion(compra *com)
     strcpy(com->estado, "Activa");
 }
 
-int validar_monto(char *monto_str)
+// Validar que el monto sea correcto (00.00)
+int validar_monto(char *monto)
 {
-
     int antes = 0, despues = 0;
     int punto_encontrado = 0;
 
     // Validar estructura
-    for (int i = 0; monto_str[i] != '\0'; i++)
+    for (int i = 0; monto[i] != '\0'; i++)
     {
-        char c = monto_str[i];
+        char c = monto[i];
+
+        // Contar dígitos antes y después del punto decimal
+        // unsigned char para evitar problemas con caracteres negativos
         if (isdigit((unsigned char)c))
         {
             if (!punto_encontrado)
@@ -104,15 +109,15 @@ int validar_monto(char *monto_str)
     // Si no hay punto, agregar ".00"
     if (!punto_encontrado)
     {
-        strcat(monto_str, ".00");
+        strcat(monto, ".00");
         punto_encontrado = 1;
         despues = 2;
     }
 
-    // Si tiene 1 decimal → agregar un 0
+    // Si tiene 1 decimal agregar un 0
     else if (despues == 1)
     {
-        strcat(monto_str, "0");
+        strcat(monto, "0");
         despues = 2;
     }
 
@@ -177,6 +182,8 @@ int validar_cvv(const char *cvv)
 
     return 1;
 }
+
+// validar si es numero
 int es_numero(const char *cadena)
 {
     int longitud = (int)strlen(cadena);
@@ -192,7 +199,7 @@ int es_numero(const char *cadena)
 void imprimir(const compra compras[], int cantidad)
 {
     printf("===============================================================================================\n");
-    printf("%-5s %-13s %-15s %-18s %-6s %-8s %-8s\n",
+    printf("%-5s %-13s %-15s %-18s %-8s %-8s %-8s\n",
            "Ref", "Monto", "Franquicia", "PAN", "CVV", "Fecha", "Estado");
     printf("===============================================================================================\n");
 
@@ -260,8 +267,8 @@ void registrar_compras()
     while (agregar && cantidad < MAX_COMPRAS)
     {
 
-        // Incrementar la referencia
-        compras[0].referencia = cantidad + 1;
+        // Asignar la referencia
+        compras[0].referencia = cantidad + 100;
 
         // Ingresar los datos de la compra
         ingreso_dato(&compras[0]);
@@ -287,6 +294,7 @@ void registrar_compras()
                 printf("Desea registrar otra compra (1=Si, 0=No): ");
                 scanf("%s", entrada);
 
+                // Validar que sea un solo dígito y que sea 0 o 1
                 if (isdigit(entrada[0]) && entrada[1] == '\0')
                     agregar = entrada[0] - '0';
                 else
@@ -396,6 +404,7 @@ int validar_tarjeta(const char *pan)
         sumatoria += valor;
     }
 
+    // Validar si la suma es múltiplo de 10
     if (sumatoria % 10 == 0)
     {
         return 1;
@@ -403,6 +412,8 @@ int validar_tarjeta(const char *pan)
     else
         return 0;
 }
+
+// Ocultar los digitos del pan, mostrando solo los primeros 4 y los ultimos 4
 void pan_oculto(const char *pan, char *resultado)
 {
     int len = (int)strlen(pan);
@@ -427,6 +438,7 @@ void pan_oculto(const char *pan, char *resultado)
 
 
 
+// Unir los digitos del pan, removiendo espacios o guiones
 int pan_unido(char *pan)
 {
     char cadenaDigitos[64];
@@ -451,7 +463,11 @@ int pan_unido(char *pan)
             return 0;
         }
     }
+
+    // Asegurar que la cadena termine con null
     cadenaDigitos[cantidadDijitos] = '\0';
+
+    // Copiar de vuelta al pan original
     strcpy(pan, cadenaDigitos);
     return 1;
 }

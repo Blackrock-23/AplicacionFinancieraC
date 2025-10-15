@@ -1,7 +1,12 @@
 # Aplicación Financiera C
 
-Proyecto pequeño y didáctico para registrar y gestionar transacciones (compras) desde la consola.
-Almacena las compras en un archivo de texto (`compras.txt`) y permite anularlas por referencia.
+Proyecto pequeño y didáctico para registrar y gestionar transacciones (compras,anulaciones,reeimpresion, reportes y cierrres ) desde la consola.
+
+-- Almacena las compras en un archivo de texto (`compras.txt`)
+-- Permite anularlas por referencia
+-- Imprime todas las compras con un hint visual, mostrando una por una la compra 
+-- Reporta la cantidad total de transacciones (activdas y anuladas), la clasificacion por cada tipo de transacion y ademas del monto cumulado
+-- En la seccion de cierre este muestra el reporte de las transacciones que hay y elimina llegado caso el cliente lo autorize
 
 ## Resumen
 
@@ -9,18 +14,27 @@ Esta aplicación en C ofrece un menú por consola con operaciones básicas:
 
 - Registrar compras.
 - Anular compras (por referencia, validando últimos 4 dígitos del PAN y CVV).
-- Opciones de cierre/reeimpresión/reportes (menú presente, sin implementación completa).
+- reeimpresión
+- reportes
+- Opciones de cierre
+ 
 
 El almacenamiento es un archivo de texto plano (`compras.txt`). Está pensada para aprendizaje y pruebas.
 
 ## Estructura de archivos
 
-- `main.c` — Interfaz del menú principal y flujo de la aplicación.
-- `compra.h` — Definición del tipo `compra` y prototipos públicos.
-- `compra.c` — Lógica para ingreso, validación (PAN, CVV, fecha), determinación de franquicia, impresión y almacenamiento de compras en `compras.txt`.
-- `anulacion.h` — Prototipo de la función de anulación.
-- `anulacion.c` — Busca compras por referencia y cambia el `Estado` a `Anulada` si coinciden los datos.
-- `compras.txt` — Archivo de datos (ejemplo) con compras registradas.
+- `main.c` - Interfaz del menú principal y flujo de la aplicación.
+- `compra.h` - Definición del tipo `compra` y prototipos públicos.
+- `compra.c` - Lógica para ingreso, validación (PAN, CVV, fecha), determinación de franquicia, impresión y almacenamiento de compras en `compras.txt`.
+- `anulacion.h` - Prototipo de la función de anulación.
+- `anulacion.c` - Busca compras por referencia y cambia el `Estado` a `Anulada` si coinciden los datos.
+- `reeimpresion.h` - Prototipo de la función de reeimpresion 
+- `reeimpresion.c` -  Imprime todas las compras, con un hint visual donde se puede desplazar  atras (a), delante(d) , salir (s).
+- `reportes.h` - Prototipo de la función de reportes
+- `reportes.c` - Imprime un pequeño reporte (compras registradas,compras activas, compras anuladas y Monto total de todas las compras)
+- `cierre.h` - Prototipo de la función de cierre
+- `cierre.c` - Este muestra un pequeño reporte y un menu donde el cliente confirma si quiere eliminar todas las compras existentes
+- `compras.txt` - Archivo de datos (ejemplo) con compras registradas.
 
 ## Formato en `compras.txt`
 
@@ -49,28 +63,16 @@ Fecha de Vencimiento: 02/60
 Estado: Activa
 
 ```
+Referencia: 2
+Monto: 550000.50
+PAN: 3440 8509 4764 301
+Franquicia: American Express
+CVV: 250
+Fecha de Vencimiento: 02/27
+Estado: Anulada
 
-Funciones clave:
+```
 
-- `void registrar_compras();`
-	- Interactúa por consola para ingresar compras y las añade a `compras.txt`.
-	- Límite: `MAX_COMPRAS` (20).
+Funciones claves:
 
-- `int validar_tarjeta(const char *pan);`
-	- Implementa Luhn. Devuelve 1 si el PAN es válido, 0 si no.
 
-- `int validar_fecha_expiracion(const char *fecha);`
-	- Recibe `MM/AA`, compara con la fecha actual y devuelve 1 si no está vencida.
-
-- `int validar_cvv(const char *cvv);`
-	- Acepta 3 o 4 dígitos.
-
-- `void hallarfranquicia(const char *pan, char *franquicia);`
-	- Determina la franquicia (Visa, MasterCard, Amex, Discover, etc.) por prefijo.
-
-- `int anular_compra(int referencia, const char *ultimopan, const char *cvv);`
-	- Busca por `referencia`, compara últimos 4 dígitos del PAN y el CVV; si coinciden, marca `Estado` como `Anulada`.
-
----
-
-Documento generado con el objetivo de facilitar la comprensión y evolución del proyecto.

@@ -10,13 +10,16 @@ int realizar_cierre()
     char entrada[10];
     char opcion;
 
+    // Llamar a la funcion para generar reportes
     generar_reportes();
+
+    // Preguntar al usuario si desea borrar las compras
     do
     {
         printf("Desea borrar todas las compras registradas? (s/n): ");
         scanf("%s", entrada);
 
-        // Solo aceptamos una letra
+        // Validamos que solo se ingrese un caracter y sea 's' o 'n'
         if (strlen(entrada) == 1)
         {
             opcion = entrada[0];
@@ -28,6 +31,7 @@ int realizar_cierre()
     } while (1);
     system("cls");
 
+    // Borramos el archivo si el usuario lo confirma
     if (opcion == 's' || opcion == 'S')
     {
         system("cls");
