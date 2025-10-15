@@ -8,7 +8,7 @@
 int reeimprimir_compras()
 {
 
-    FILE *archivo = fopen(ARCHIVO, "rt");
+    FILE *archivo = fopen(ARCHIVO, "rb");
     if (!archivo)
     {
         printf("Error al abrir el archivo\n");
@@ -17,15 +17,7 @@ int reeimprimir_compras()
     compra compras[MAX_COMPRAS];
 
     int cantidad = 0;
-    while (fscanf(archivo,
-                  "Referencia: %d\nMonto: %lf\nPAN: %31[^\n]\nFranquicia: %19[^\n]\nCVV: %4[^\n]\nFecha de Vencimiento: %5[^\n]\nEstado: %9[^\n]\n\n",
-                  &compras[cantidad].referencia,
-                  &compras[cantidad].monto_compra,
-                  compras[cantidad].pan,
-                  compras[cantidad].franquicia,
-                  compras[cantidad].cvv,
-                  compras[cantidad].fecha_Expiracion,
-                  compras[cantidad].estado) == 7)
+    while (fread(&compras[cantidad], sizeof(compra), 1, archivo) == 1)
     {
         cantidad++;
         if (cantidad >= MAX_COMPRAS)
@@ -45,14 +37,17 @@ int reeimprimir_compras()
            "Ref", "Monto", "Franquicia", "PAN", "CVV", "Fecha", "Estado");
     printf("===============================================================================================\n");
 
+    
     // Filas de datos
     for (int i = cantidad - 1; i >= 0; i--)
     {
+        char pan_formateado[32];
+        pan_oculto(compras[i].pan, pan_formateado);
         printf("%-5d %-13.2lf %-15s %-18s %-6s %-8s %-8s\n",
                compras[i].referencia,
                compras[i].monto_compra,
                compras[i].franquicia,
-               compras[i].pan,
+               pan_formateado,
                compras[i].cvv,
                compras[i].fecha_Expiracion,
                compras[i].estado);

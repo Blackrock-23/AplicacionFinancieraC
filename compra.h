@@ -30,5 +30,6 @@ void estadoTransaccion(compra *com);
 int pan_unido( char *pan);
 int es_numero(const char *cadena);
 int validar_monto( char *monto_str);
+void pan_oculto(const char *pan, char *resultado);
 
 #endif

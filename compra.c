@@ -196,14 +196,17 @@ void imprimir(const compra compras[], int cantidad)
            "Ref", "Monto", "Franquicia", "PAN", "CVV", "Fecha", "Estado");
     printf("===============================================================================================\n");
 
+    
     // Filas de datos
     for (int i = cantidad - 1; i >= 0; i--)
     {
+        char pan_formateado[32];
+        pan_oculto(compras[i].pan, pan_formateado);
         printf("%-5d %-13.2lf %-15s %-18s %-6s %-8s %-8s\n",
                compras[i].referencia,
                compras[i].monto_compra,
                compras[i].franquicia,
-               compras[i].pan,
+                pan_formateado,
                compras[i].cvv,
                compras[i].fecha_Expiracion,
                compras[i].estado);
@@ -400,6 +403,29 @@ int validar_tarjeta(const char *pan)
     else
         return 0;
 }
+void pan_oculto(const char *pan, char *resultado)
+{
+    int len = (int)strlen(pan);
+    if (len <= 8) // mostrar todo si es muy corto
+    {
+        strcpy(resultado, pan);
+        return;
+    }
+
+    // Copiar los primeros 4
+    strncpy(resultado, pan, 4);
+
+    // Rellenar con '*' los intermedios
+    for (int i = 4; i < len - 4; i++)
+        resultado[i] = '*';
+
+    // Copiar los últimos 4
+    strncpy(resultado + len - 4, pan + len - 4, 4);
+
+    resultado[len] = '\0'; // terminar cadena
+}
+
+
 
 int pan_unido(char *pan)
 {
