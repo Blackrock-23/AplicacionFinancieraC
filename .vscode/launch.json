@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/edins/OneDrive/Escritorio/AplicacionFinancieraC",
-      "program": "c:/Users/edins/OneDrive/Escritorio/AplicacionFinancieraC/build/Debug/outDebug",
+      "cwd": "c:/Users/GYZ 2/AplicacionFinancieraC",
+      "program": "c:/Users/GYZ 2/AplicacionFinancieraC/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

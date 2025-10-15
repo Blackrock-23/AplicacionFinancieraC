@@ -1,7 +1,7 @@
 #ifndef COMPRA_H
 #define COMPRA_H
 
-// Strcut para almacenar los datos de la compra
+// Struct para almacenar los datos de la compra
 typedef struct
 {
     double monto_compra;

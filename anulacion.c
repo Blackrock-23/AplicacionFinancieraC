@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
+
+// Función para anular una compra
 int anular_compra(int referencia, const char *ultimopan, const char *cvv)
 {
 
@@ -18,6 +20,7 @@ int anular_compra(int referencia, const char *ultimopan, const char *cvv)
     compra compras[MAX_COMPRAS];
     int cantidad = 0;
 
+    // leer todas las compras del archivo
     while (fread(&compras[cantidad], sizeof(compra), 1, archivo) == 1)
     {
         cantidad++;

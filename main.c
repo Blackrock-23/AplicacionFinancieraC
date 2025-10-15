@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "compra.h"
 #include "anulacion.h"
-#include "reeimpresion.h"
+#include "reimpresion.h"
 #include "reportes.h"
 #include "cierre.h"
 
@@ -47,7 +47,7 @@ int main(){
                 }
                 break;
             case 3:
-                reeimprimir_compras();
+                reimprimir_compras();
                 break;
             case 4:
                 generar_reportes();
