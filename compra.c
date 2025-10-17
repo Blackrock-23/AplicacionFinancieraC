@@ -14,7 +14,7 @@ void ingreso_dato(compra *com)
     do
     {
         printf("Ingrese el monto de la compra en dolares (00.00): ");
-        scanf("%s", entrada);
+        gets(entrada);
 
         // se llama a la funcion validar monto
         if (validar_monto(entrada))
@@ -28,9 +28,6 @@ void ingreso_dato(compra *com)
             printf("Monto invalido.\n");
         }
     } while (1);
-    getchar();
-
-    
     printf("Ingrese el PAN  (Numero de tarjeta sin puntos ni letras): ");
     gets(com->pan);
 
@@ -203,17 +200,16 @@ void imprimir(const compra compras[], int cantidad)
            "Ref", "Monto", "Franquicia", "PAN", "CVV", "Fecha", "Estado");
     printf("===============================================================================================\n");
 
-    
     // Filas de datos
     for (int i = cantidad - 1; i >= 0; i--)
     {
         char pan_formateado[32];
         pan_oculto(compras[i].pan, pan_formateado);
-        printf("%-5d %-13.2lf %-15s %-18s %-6s %-8s %-8s\n",
+        printf("%-5s %-13.2lf %-15s %-18s %-6s %-8s %-8s\n",
                compras[i].referencia,
                compras[i].monto_compra,
                compras[i].franquicia,
-                pan_formateado,
+               pan_formateado,
                compras[i].cvv,
                compras[i].fecha_Expiracion,
                compras[i].estado);
@@ -268,7 +264,7 @@ void registrar_compras()
     {
 
         // Asignar la referencia
-        compras[0].referencia = cantidad + 100;
+        sprintf(compras[0].referencia, "%d", cantidad + 100);
 
         // Ingresar los datos de la compra
         ingreso_dato(&compras[0]);
@@ -292,21 +288,20 @@ void registrar_compras()
             do
             {
                 printf("Desea registrar otra compra (1=Si, 0=No): ");
-                scanf("%s", entrada);
+                gets(entrada);
 
-                // Validar que sea un solo dígito y que sea 0 o 1
-                if (isdigit(entrada[0]) && entrada[1] == '\0')
+                if (strlen(entrada) == 1 && entrada[0] >= '0' && entrada[0] <= '1')
+                {
                     agregar = entrada[0] - '0';
+                }
                 else
+                {
                     agregar = -1;
-
-                if (agregar != 0 && agregar != 1)
-                    printf("Opcion invalida. Ingrese 1 o 0.\n");
-
-            } while (agregar != 0 && agregar != 1);
+                    printf("Entrada invalida. Por favor ingrese 1 para Si o 0 para No.\n");
+                }
+            } while (agregar == -1);
 
             system("cls");
-            getchar();
         }
         else
         {
@@ -435,8 +430,6 @@ void pan_oculto(const char *pan, char *resultado)
 
     resultado[len] = '\0'; // terminar cadena
 }
-
-
 
 // Unir los digitos del pan, removiendo espacios o guiones
 int pan_unido(char *pan)

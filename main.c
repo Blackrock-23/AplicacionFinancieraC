@@ -7,11 +7,13 @@
 #include "reportes.h"
 #include "cierre.h"
 
-int main(){
+int main()
+{
 
     int opcion;
     char entrada[10];
-    do {
+    do
+    {
         printf("--- BIENVENIDO A LA APLICACION FINANCIERA ---\n");
         printf("---------------------------------------------\n");
         printf("               1. COMPRA\n");
@@ -24,51 +26,40 @@ int main(){
         gets(entrada);
 
         // Validamos que la entrada sea un solo caracter y este entre '1' y '6'
-        if (strlen(entrada) == 1 && entrada[0] >= '1' && entrada[0] <= '6') {
-            opcion = entrada[0] - '0'; 
-        } else {
-            opcion = 0; 
+        if (strlen(entrada) == 1 && entrada[0] >= '1' && entrada[0] <= '6')
+        {
+            opcion = entrada[0] - '0';
+        }
+        else
+        {
+            opcion = 0;
         }
 
         system("cls");
 
-        switch (opcion) {
-            case 1:
-                registrar_compras();
-                break;
-            case 2:
-                {
-                    int referencia;
-                    char ultimopan[5];
-                    char cvv[5];
-
-                    printf("Ingrese la referencia de la compra a anular: ");
-                    scanf("%d", &referencia);
-                    getchar(); 
-
-                    printf("Ingrese los ultimos 4 digitos del PAN: ");
-                    gets(ultimopan);
-
-                    printf("Ingrese el CVV: ");
-                    gets(cvv);
-
-                    anular_compra(referencia, ultimopan, cvv);
-                }
-                break;
-            case 3:
-                reimprimir_compras();
-                break;
-            case 4:
-                generar_reportes();
-                break;
-            case 5:
-                realizar_cierre();
-                break;
-            case 6:
-                printf("Saliendo de la aplicacion...\n");
-                break;
-            default:
-                printf("Opcion invalida. Intente de nuevo.\n");
+        switch (opcion)
+        {
+        case 1:
+            registrar_compras();
+            break;
+        case 2:
+            anular_compra();
+            break;
+    
+        case 3:
+            reimprimir_compras();
+            break;
+        case 4:
+            generar_reportes();
+            break;
+        case 5:
+            realizar_cierre();
+            break;
+        case 6:
+            printf("Saliendo de la aplicacion...\n");
+            break;
+        default:
+            printf("Opcion invalida. Intente de nuevo.\n");
         }
     } while (opcion != 6);
     return 0;

@@ -17,7 +17,7 @@ int realizar_cierre()
     do
     {
         printf("Desea borrar todas las compras registradas? (s/n): ");
-        scanf("%s", entrada);
+        gets(entrada);
 
         // Validamos que solo se ingrese un caracter y sea 's' o 'n'
         if (strlen(entrada) == 1)

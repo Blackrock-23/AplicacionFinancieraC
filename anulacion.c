@@ -4,10 +4,42 @@
 #include <stdio.h>
 #include <string.h>
 
-
 // Función para anular una compra
-int anular_compra(int referencia, const char *ultimopan, const char *cvv)
+int anular_compra()
 {
+    char referencia[5];
+    char ultimopan[5];
+    char cvv[5];
+
+    do
+    {
+        printf("Ingrese la referencia de la compra a anular: ");
+        gets(referencia);
+
+        if (strlen(referencia) == 0)
+            printf(" La referencia no puede estar vacia.\n");
+
+    } while (strlen(referencia) == 0);
+
+    do
+    {
+        printf("Ingrese los ultimos 4 digitos del PAN: ");
+        gets(ultimopan);
+
+        if (strlen(ultimopan) == 0)
+            printf(" Los ultimos 4 digitos no pueden estar vacios.\n");
+
+    } while (strlen(ultimopan) == 0);
+
+    do
+    {
+        printf("Ingrese el CVV: ");
+        gets(cvv);
+
+        if (strlen(cvv) == 0)
+            printf("  El CVV no puede estar vacio.\n");
+
+    } while (strlen(cvv) == 0);
 
     // Abrir el archivo para lectura
     FILE *archivo = fopen(ARCHIVO, "rb");
@@ -34,7 +66,7 @@ int anular_compra(int referencia, const char *ultimopan, const char *cvv)
     int encontrada = 0;
     for (int i = 0; i < cantidad; i++)
     {
-        if (compras[i].referencia == referencia)
+        if (strcmp(compras[i].referencia, referencia) == 0)
         {
             int len_pan = (int)strlen(compras[i].pan);
             if (len_pan >= 4 && strcmp(compras[i].pan + len_pan - 4, ultimopan) == 0 && strcmp(compras[i].cvv, cvv) == 0)
@@ -53,7 +85,7 @@ int anular_compra(int referencia, const char *ultimopan, const char *cvv)
 
     if (!encontrada)
     {
-        printf("Compra con referencia %d no encontrada.\n", referencia);
+        printf("Compra con referencia %s no encontrada.\n", referencia);
         return 0;
     }
 
