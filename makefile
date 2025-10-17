@@ -1,45 +1,46 @@
-# Nombre del compilador
+# Compilador
 CC = gcc
 
-# Flags de compilación (puedes agregar -Wall para ver advertencias)
+# Carpetas
+SRC_DIR = .
+OBJ_DIR = obj
+BIN_DIR = bin
+
+# Archivos fuente y objetos
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
+
+# Nombre del ejecutable
+TARGET = $(BIN_DIR)/programa.exe
+
+# Flags de compilación
 CFLAGS = -Wall
 
-# Nombre del ejecutable final
-TARGET = programa
+# Regla principal
+all: $(BIN_DIR) $(OBJ_DIR) $(TARGET)
 
-# Busca todos los archivos .c del directorio actual
-SRC = $(wildcard *.c)
-
-# Crea una lista de archivos objeto .o a partir de los .c
-OBJ = $(SRC:.c=.o)
-
-# ===============================
-# Regla principal (compila todo)
-# ===============================
-all: $(TARGET)
-
-# Cómo generar el ejecutable a partir de los objetos
+# Cómo construir el ejecutable
 $(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(OBJ) -o $@
 
-# Cómo generar los .o a partir de los .c
-%.o: %.c
+# Cómo compilar los .c en .o dentro de obj
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# ===============================
+# Crear carpetas si no existen
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
+
 # Ejecutar el programa
-# ===============================
 run: all
 	./$(TARGET)
 
-# ===============================
-# Limpiar archivos intermedios
-# ===============================
+# Limpiar archivos compilados
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -rf $(OBJ_DIR) $(BIN_DIR) Debug debug Build build
 
-# ===============================
-# Resetear el proyecto
-# (limpia y recompila todo)
-# ===============================
+# Reiniciar el programa (limpia y recompila)
 reset: clean all

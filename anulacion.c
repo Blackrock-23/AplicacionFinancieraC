@@ -3,45 +3,97 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
-// Función para anular una compra
-int anular_compra()
+
+void ingresarReferencia(char *referencia)
 {
-    char referencia[5];
-    char ultimopan[5];
-    char cvv[5];
-
+    int valido;
     do
     {
         printf("Ingrese la referencia de la compra a anular: ");
         gets(referencia);
 
         if (strlen(referencia) == 0)
-            printf(" La referencia no puede estar vacia.\n");
+        {
+            printf("La referencia no puede estar vacia.\n");
+            valido = 0;
+        }
+        else
+        {
+            valido = 1;
+        }
+    } while (!valido);
+}
 
-    } while (strlen(referencia) == 0);
-
+void ingresarUltimosPan(char *ultimopan)
+{
+    int valido;
     do
     {
         printf("Ingrese los ultimos 4 digitos del PAN: ");
         gets(ultimopan);
 
-        if (strlen(ultimopan) == 0)
-            printf(" Los ultimos 4 digitos no pueden estar vacios.\n");
+        int largo = strlen(ultimopan);
+        int es_numerico = 1;
 
-    } while (strlen(ultimopan) == 0);
+        for (int i = 0; i < largo; i++)
+        {
+            if (!isdigit(ultimopan[i]))
+            {
+                es_numerico = 0;
+                break;
+            }
+        }
 
+        if (largo != 4 || !es_numerico)
+        {
+            printf("El PAN debe tener exactamente 4 digitos numericos.\n");
+            valido = 0;
+        }
+        else
+        {
+            valido = 1;
+        }
+
+    } while (!valido);
+}
+
+void ingresarCVV(char *cvv)
+{
+    int valido;
     do
     {
         printf("Ingrese el CVV: ");
         gets(cvv);
 
-        if (strlen(cvv) == 0)
-            printf("  El CVV no puede estar vacio.\n");
+        int largo = strlen(cvv);
+        int es_numerico = 1;
 
-    } while (strlen(cvv) == 0);
+        for (int i = 0; i < largo; i++)
+        {
+            if (!isdigit(cvv[i]))
+            {
+                es_numerico = 0;
+                break;
+            }
+        }
 
-    // Abrir el archivo para lectura
+        if (largo != 4 || !es_numerico)
+        {
+            printf(" El CVV debe tener exactamente 4 digitos numericos.\n");
+            valido = 0;
+        }
+        else
+        {
+            valido = 1;
+        }
+
+    } while (!valido);
+}
+
+int buscarYAnularCompra(const char *referencia, const char *ultimopan, const char *cvv)
+{
     FILE *archivo = fopen(ARCHIVO, "rb");
     if (!archivo)
     {
@@ -52,7 +104,6 @@ int anular_compra()
     compra compras[MAX_COMPRAS];
     int cantidad = 0;
 
-    // leer todas las compras del archivo
     while (fread(&compras[cantidad], sizeof(compra), 1, archivo) == 1)
     {
         cantidad++;
@@ -62,7 +113,6 @@ int anular_compra()
 
     fclose(archivo);
 
-    // Buscar la compra por referencia y verificar ultimos 4 dígitos del PAN y CVV
     int encontrada = 0;
     for (int i = 0; i < cantidad; i++)
     {
@@ -77,7 +127,7 @@ int anular_compra()
             }
             else
             {
-                printf("PAN o CVV incorrectos.\n");
+                printf(" PAN o CVV incorrectos.\n");
                 return 0;
             }
         }
@@ -85,12 +135,11 @@ int anular_compra()
 
     if (!encontrada)
     {
-        printf("Compra con referencia %s no encontrada.\n", referencia);
+        printf(" Compra con referencia %s no encontrada.\n", referencia);
         return 0;
     }
 
-    // Reescribir el archivo con las compras actualizadas
-    archivo = fopen("compras.bin", "wb"); // "wb" sobrescribe el archivo
+    archivo = fopen(ARCHIVO, "wb");
     if (!archivo)
     {
         printf("Error al abrir el archivo para escritura\n");
@@ -103,8 +152,22 @@ int anular_compra()
     }
 
     fclose(archivo);
-    system("cls");
-
-    printf("Compra anulada correctamente.\n");
+    printf(" Compra anulada correctamente.\n");
     return 1;
+}
+
+//funcion princirpal
+int anular_compra()
+{
+    char referencia[10];
+    char ultimopan[10];
+    char cvv[10];
+
+    ingresarReferencia(referencia);
+    ingresarUltimosPan(ultimopan);
+    ingresarCVV(cvv);
+
+    system("cls"); 
+
+    return buscarYAnularCompra(referencia, ultimopan, cvv);
 }

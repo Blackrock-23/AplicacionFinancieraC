@@ -45,7 +45,6 @@ int main()
         case 2:
             anular_compra();
             break;
-    
         case 3:
             reimprimir_compras();
             break;
@@ -56,7 +55,7 @@ int main()
             realizar_cierre();
             break;
         case 6:
-            printf("Saliendo de la aplicacion...\n");
+            printf("Gracias por usar nuestra aplicacion...\n");
             break;
         default:
             printf("Opcion invalida. Intente de nuevo.\n");
