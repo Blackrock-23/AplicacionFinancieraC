@@ -4,14 +4,15 @@
 // Struct para almacenar los datos de la compra
 typedef struct
 {
+    char referencia[10];
     double monto_compra;
+    char franquicia[20];
     char pan[32];
     char cvv[5];
     char fecha_Expiracion[6];
-    int referencia;
-    char franquicia[20];
     char estado[10];
 } compra;
+
 
 // definiciones
 #define MAX_COMPRAS 20

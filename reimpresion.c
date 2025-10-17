@@ -53,7 +53,7 @@ int reimprimir_compras()
         //Llamar a la funcion para ocultar el pan
         pan_oculto(compras[indice].pan, pan_formateado);
 
-        printf("%-5d %-13.2lf %-15s %-18s %-6s %-8s %-8s\n",
+        printf("%-5s %-13.2lf %-15s %-18s %-6s %-8s %-8s\n",
                compras[indice].referencia,
                compras[indice].monto_compra,
                compras[indice].franquicia,
@@ -111,7 +111,7 @@ char pedir_tecla_valida()
     while (1)
     {
         printf("Ingrese una tecla: ");
-        scanf("%s", entrada);
+        gets(entrada);
 
         // Validar que solo haya un carácter
         if (entrada[1] != '\0')
