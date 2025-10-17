@@ -6,6 +6,7 @@
 #include <ctype.h>
 
 
+// funcion para validar la referencia
 void ingresarReferencia(char *referencia)
 {
     int valido;
@@ -26,6 +27,7 @@ void ingresarReferencia(char *referencia)
     } while (!valido);
 }
 
+// funcion para validar los ultimos 4 digitos del PAN
 void ingresarUltimosPan(char *ultimopan)
 {
     int valido;
@@ -59,6 +61,7 @@ void ingresarUltimosPan(char *ultimopan)
     } while (!valido);
 }
 
+// funcion para validar el cvv
 void ingresarCVV(char *cvv)
 {
     int valido;
@@ -92,6 +95,7 @@ void ingresarCVV(char *cvv)
     } while (!valido);
 }
 
+// funcion que anula la compra
 int buscarYAnularCompra(const char *referencia, const char *ultimopan, const char *cvv)
 {
     FILE *archivo = fopen(ARCHIVO, "rb");
