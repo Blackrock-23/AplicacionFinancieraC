@@ -1,74 +1,41 @@
 # Aplicación Financiera C
 
-Proyecto pequeño y didáctico para registrar y gestionar transacciones (compras,anulaciones,reeimpresion, reportes y cierrres ) desde la consola.
+Pequeña aplicación de consola en C para registrar y gestionar transacciones (compras, anulaciones, reimpresión, reportes y cierre).
 
--- Almacena las compras en un archivo de texto (`compras.txt`)
--- Permite anularlas por referencia
--- Imprime todas las compras con un hint visual, mostrando una por una la compra 
--- Reporta la cantidad total de transacciones (activdas y anuladas), la clasificacion por cada tipo de transacion y ademas del monto cumulado
--- En la seccion de cierre este muestra el reporte de las transacciones que hay y elimina llegado caso el cliente lo autorize
+Resumen rápido
+- Registro de compras: [`registrar_compras`](compra.c)  
+- Anulación por referencia validando últimos 4 dígitos del PAN y CVV: [`anular_compra`](anulacion.c) / [`buscarYAnularCompra`](anulacion.c)  
+- Reimpresión navegable (anterior/adelante/salir): [`reimprimir_compras`](reimpresion.c)  
+- Reportes de totales y montos: [`generar_reportes`](reportes.c)  
+- Cierre del día (muestra reporte y opcionalmente borra datos): [`realizar_cierre`](cierre.c)
 
-## Resumen
+Archivos principales
+- [main.c](main.c) — menú principal y flujo de la aplicación.  
+- [compra.h](compra.h) — definición del tipo `compra` y macros (`MAX_COMPRAS`, [`ARCHIVO`](compra.h)).  
+- [compra.c](compra.c) — ingreso, validaciones (PAN/Luhn, CVV, fecha), franquicia, ocultar PAN, unir PAN, impresión y registro. Contiene funciones como [`ingreso_dato`](compra.c), [`validar_tarjeta`](compra.c), [`pan_oculto`](compra.c), [`pan_unido`](compra.c).  
+- [anulacion.c](anulacion.c) / [anulacion.h](anulacion.h) — entrada de datos y lógica de anulación (`ingresarReferencia`, `ingresarUltimosPan`, `ingresarCVV`, [`buscarYAnularCompra`](anulacion.c)).  
+- [reimpresion.c](reimpresion.c) / [reimpresion.h](reimpresion.h) — muestra compras y navegación (`mostrar_hint`, `pedir_tecla_valida`, [`reimprimir_compras`](reimpresion.c)).  
+- [reportes.c](reportes.c) / [reportes.h](reportes.h) — cálculo y muestra de totales (compras activas/anuladas/monto total) [`generar_reportes`](reportes.c).  
+- [cierre.c](cierre.c) / [cierre.h](cierre.h) — genera reporte y pregunta para borrar el archivo de datos [`realizar_cierre`](cierre.c).  
+- [makefile](makefile) — scripts para compilar y ejecutar.
 
-Esta aplicación en C ofrece un menú por consola con operaciones básicas:
 
-- Registrar compras.
-- Anular compras (por referencia, validando últimos 4 dígitos del PAN y CVV).
-- reeimpresión
-- reportes
-- Opciones de cierre
- 
+Compilar y ejecutar
+Uso rápido
+- Compilar: `make`
+- Ejecutar: `make run`
 
-El almacenamiento es un archivo de texto plano (`compras.txt`). Está pensada para aprendizaje y pruebas.
+Menú (1..6)
+- 1 COMPRA — registrar compra (`registrar_compras`)
+- 2 ANULACION — anular por referencia + últimos4 + CVV (`anular_compra`)
+- 3 REEIMPRESION — ver compras (`reimprimir_compras`)
+- 4 REPORTES — totales y montos (`generar_reportes`)
+- 5 CIERRE — reporte y opcional vaciado (`realizar_cierre`)
+- 6 SALIR
 
-## Estructura de archivos
+Almacenamiento
+- Archivo: macro `ARCHIVO` en `compra.h` (formato binario). Estructura `compra` en `compra.h`.
 
-- `main.c` - Interfaz del menú principal y flujo de la aplicación.
-- `compra.h` - Definición del tipo `compra` y prototipos públicos.
-- `compra.c` - Lógica para ingreso, validación (PAN, CVV, fecha), determinación de franquicia, impresión y almacenamiento de compras en `compras.txt`.
-- `anulacion.h` - Prototipo de la función de anulación.
-- `anulacion.c` - Busca compras por referencia y cambia el `Estado` a `Anulada` si coinciden los datos.
-- `reeimpresion.h` - Prototipo de la función de reeimpresion 
-- `reeimpresion.c` -  Imprime todas las compras, con un hint visual donde se puede desplazar  atras (a), delante(d) , salir (s).
-- `reportes.h` - Prototipo de la función de reportes
-- `reportes.c` - Imprime un pequeño reporte (compras registradas,compras activas, compras anuladas y Monto total de todas las compras)
-- `cierre.h` - Prototipo de la función de cierre
-- `cierre.c` - Este muestra un pequeño reporte y un menu donde el cliente confirma si quiere eliminar todas las compras existentes
-- `compras.txt` - Archivo de datos (ejemplo) con compras registradas.
 
-## Formato en `compras.txt`
-
-Cada compra se guarda en el archivo con el siguiente bloque exacto:
-
-```
-Referencia: <int>
-Monto: <float con 2 decimales>
-PAN: <cadena>
-Franquicia: <cadena>
-CVV: <cadena>
-Fecha de Vencimiento: <MM/AA>
-Estado: <Activa|Anulada>
-
-```
-
-Ejemplo:
-
-```
-Referencia: 1
-Monto: 61949.60
-PAN: 4111 1111 1111 1111
-Franquicia: Visa
-CVV: 191
-Fecha de Vencimiento: 02/60
-Estado: Activa
-
-```
-Referencia: 2
-Monto: 550000.50
-PAN: 3440 8509 4764 301
-Franquicia: American Express
-CVV: 250
-Fecha de Vencimiento: 02/27
-Estado: Anulada
-
-```
+Archivos principales
+- `main.c`, `compra.c/h`, `anulacion.c/h`, `reimpresion.c/h`, `reportes.c/h`, `cierre.c/h`, `makefile`.
