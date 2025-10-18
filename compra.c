@@ -8,18 +8,28 @@
 // Ingreso de datos de la compra
 void ingreso_dato(compra *com)
 {
-    printf("--- Nueva compra ---\n");
+    printf("- - - - - - - - - - - - - - - - - - - - - - - - -\n ");
+    printf("Ingrese la letra 'p' si quiere cancelar la compra\n ");
+    printf("- - - - - - - - - - - - - - - - - - - - - - - - -\n ");
+    printf("---------- Nueva compra ------------\n");
 
     char entrada[32];
+
+    // monto
     do
     {
         printf("Ingrese el monto de la compra en dolares (00.00): ");
         gets(entrada);
 
-        // se llama a la funcion validar monto
+        if (strcmp(entrada, "p") == 0 || strcmp(entrada, "P") == 0)
+        {
+            com->monto_compra = -1;
+            printf("Compra cancelada.\n");
+            return;
+        }
+
         if (validar_monto(entrada))
         {
-            // atof convierte la cadena a double
             com->monto_compra = atof(entrada);
             break;
         }
@@ -28,41 +38,64 @@ void ingreso_dato(compra *com)
             printf("Monto invalido.\n");
         }
     } while (1);
-    printf("Ingrese el PAN  (Numero de tarjeta sin puntos ni letras): ");
-    gets(com->pan);
 
-    // Validar el PAN
-    while (!validar_tarjeta(com->pan))
+    // pan
+    do
     {
-        printf("La tarjeta no es valida, vuelve ingresar el valor: ");
-        gets(com->pan);
-    }
+        printf("Ingrese el PAN (Numero de tarjeta sin puntos ni letras): ");
+        gets(entrada);
+        if (strcmp(entrada, "p") == 0 || strcmp(entrada, "P") == 0)
+        {
+            com->monto_compra = -1;
+            printf("Compra cancelada.\n");
+            return;
+        }
 
-    printf("Ingrese el CVV (Solo 3 o 4 dijitos):");
-    gets(com->cvv);
+        strcpy(com->pan, entrada);
 
-    // Validar el CVV
-    while (!validar_cvv(com->cvv))
+    } while (!validar_tarjeta(com->pan));
+
+    // cvv
+    do
     {
-        printf("El CVV no es valido, vuelve ingresar el valor: ");
-        gets(com->cvv);
-    }
+        printf("Ingrese el CVV (Solo 3 o 4 digitos): ");
+        gets(entrada);
+
+        if (strcmp(entrada, "p") == 0 || strcmp(entrada, "P") == 0)
+        {
+            com->monto_compra = -1;
+            printf("Compra cancelada.\n");
+            return;
+        }
+
+        strcpy(com->cvv, entrada);
+
+    } while (!validar_cvv(com->cvv));
+
+    // fecha de expiracion
+    do
+    {
+        printf("Ingrese la fecha de expiracion (MM/AA): ");
+        gets(entrada);
+
+        if (strcmp(entrada, "p") == 0 || strcmp(entrada, "P") == 0)
+        {
+            com->monto_compra = -1;
+            printf("Compra cancelada.\n");
+            return;
+        }
+
+        strcpy(com->fecha_Expiracion, entrada);
+
+    } while (!validar_fecha_expiracion(com->fecha_Expiracion));
 
     // Determinar la franquicia
     hallarfranquicia(com->pan, com->franquicia);
 
-    printf("Ingrese la fecha de expiracion (MM/AA): ");
-    gets(com->fecha_Expiracion);
-
-    // Validar la fecha de expiracion
-    while (!validar_fecha_expiracion(com->fecha_Expiracion))
-    {
-        printf("Vuelva a ingresar una fecha valida (MM/AA): ");
-        gets(com->fecha_Expiracion);
-    }
-
     // Activar la compra
     estadoTransaccion(com);
+
+    printf("Compra registrada exitosamente.\n");
 }
 
 // Activar la compra
@@ -263,11 +296,17 @@ void registrar_compras()
     while (agregar && cantidad < MAX_COMPRAS)
     {
 
-        // Asignar la referencia
-        sprintf(compras[0].referencia, "%d", cantidad + 100);
-
         // Ingresar los datos de la compra
         ingreso_dato(&compras[0]);
+
+        // validar si se cancelo o no
+        if (compras[0].monto_compra == -1)
+        {
+            break;
+        }
+
+        // Asignar la referencia
+        sprintf(compras[0].referencia, "%d", cantidad + 100);
 
         pan_unido(compras[0].pan);
 
