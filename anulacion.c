@@ -5,15 +5,19 @@
 #include <string.h>
 #include <ctype.h>
 
-
 // funcion para validar la referencia
-void ingresarReferencia(char *referencia)
+int ingresarReferencia(char *referencia)
 {
     int valido;
     do
     {
         printf("Ingrese la referencia de la compra a anular: ");
         gets(referencia);
+
+        if (strcmp(referencia, "p") == 0 || strcmp(referencia, "P") == 0)
+        {
+            return 0;
+        }
 
         if (strlen(referencia) == 0)
         {
@@ -25,16 +29,23 @@ void ingresarReferencia(char *referencia)
             valido = 1;
         }
     } while (!valido);
+
+    return 1;
 }
 
 // funcion para validar los ultimos 4 digitos del PAN
-void ingresarUltimosPan(char *ultimopan)
+int ingresarUltimosPan(char *ultimopan)
 {
     int valido;
     do
     {
         printf("Ingrese los ultimos 4 digitos del PAN: ");
         gets(ultimopan);
+
+        if (strcmp(ultimopan, "p") == 0 || strcmp(ultimopan, "P") == 0)
+        {
+            return 0;
+        }
 
         int largo = strlen(ultimopan);
         int es_numerico = 1;
@@ -59,16 +70,22 @@ void ingresarUltimosPan(char *ultimopan)
         }
 
     } while (!valido);
+    return 1;
 }
 
 // funcion para validar el cvv
-void ingresarCVV(char *cvv)
+int ingresarCVV(char *cvv)
 {
     int valido;
     do
     {
         printf("Ingrese el CVV: ");
         gets(cvv);
+
+        if (strcmp(cvv, "p") == 0 || strcmp(cvv, "P") == 0)
+        {
+            return 0;
+        }
 
         int largo = strlen(cvv);
         int es_numerico = 1;
@@ -93,6 +110,7 @@ void ingresarCVV(char *cvv)
         }
 
     } while (!valido);
+    return 1;
 }
 
 // funcion que anula la compra
@@ -160,18 +178,40 @@ int buscarYAnularCompra(const char *referencia, const char *ultimopan, const cha
     return 1;
 }
 
-//funcion princirpal
+// funcion princirpal
 int anular_compra()
 {
     char referencia[10];
     char ultimopan[10];
     char cvv[10];
 
-    ingresarReferencia(referencia);
-    ingresarUltimosPan(ultimopan);
-    ingresarCVV(cvv);
+    printf("- - - - - - - - - - - - - - - - - - - - - - - - -\n ");
+    printf("Ingrese la letra 'p' si quiere cancelar la compra\n ");
+    printf("- - - - - - - - - - - - - - - - - - - - - - - - -\n ");
 
-    system("cls"); 
+    // Ingresar referencia
+    if (!ingresarReferencia(referencia))
+    {   
+        printf("Cancelando la anulacion...\n");
+        return 0;
+    }
 
+    // Ingresar últimos 4 dígitos del PAN
+    if (!ingresarUltimosPan(ultimopan))
+    {
+        printf("Cancelando la anulacion...\n");
+        return 0;
+    }
+
+    // Ingresar CVV
+    if (!ingresarCVV(cvv))
+    {
+        printf("Cancelando la anulacion... \n");
+        return 0;
+    }
+
+    system("cls");
+
+    // Buscar y anular la compra
     return buscarYAnularCompra(referencia, ultimopan, cvv);
 }
