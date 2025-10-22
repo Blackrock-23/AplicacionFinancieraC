@@ -16,6 +16,8 @@ typedef struct
 
 // definiciones
 #define MAX_COMPRAS 20
+
+// Se define archivo .dat
 #define ARCHIVO "compras.dat"
 
 // Prototipos de funciones

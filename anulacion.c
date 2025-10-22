@@ -108,6 +108,7 @@ int ingresarCVV(char *cvv)
             }
         }
 
+        //valida que sean exactamente 4 o 3 dijitos
         if ((largo < 3 && largo > 4) || !es_numerico)
         {
             printf(" El CVV debe tener exactamente 4 o 3 digitos numericos.\n");
@@ -187,6 +188,7 @@ int buscarYAnularCompra(const char *referencia, const char *ultimopan, const cha
     }
 
     fclose(archivo);
+    //se genera un mensaje de annulacion exitosa
     printf("---------------------------------------------\n");
     printf("         Compra anulada exitosamente.\n");
     printf("---------------------------------------------\n");

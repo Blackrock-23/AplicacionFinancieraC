@@ -70,7 +70,7 @@ int reimprimir_compras()
         // Pedir una tecla válida
         tecla = pedir_tecla_valida();
 
-        // Acciones
+        // Acciones para poder moverse en orden descendente
         if (tecla == 'd' && indice > 0)
             indice--;
         else if (tecla == 'a' && indice < cantidad - 1)
@@ -94,14 +94,12 @@ int reimprimir_compras()
 void mostrar_hint(int indice, int cantidad)
 {
     printf("\n");
-    // Si aún puedes ir hacia compras más recientes
     if (indice < cantidad - 1)
-        printf("<-- (a) "); // izquierda
+        printf("<-- (a) "); 
     else
         printf("         ");
-    // Si aún puedes ir hacia compras más antiguas
     if (indice > 0)
-        printf("(d) -->   "); // derecha
+        printf("(d) -->   "); 
     printf("(s) Salir\n");
 }
 
