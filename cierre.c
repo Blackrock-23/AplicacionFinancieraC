@@ -32,12 +32,12 @@ int realizar_cierre()
         printf("Opcion invalida. Ingrese solo 's' o 'n'.\n");
 
     } while (1);
-    system("cls");
+    system("clear");
 
     // Borramos el archivo si el usuario lo confirma
     if (opcion == 's' || opcion == 'S')
     {
-        system("cls");
+       system("clear");
         FILE *archivo = fopen(ARCHIVO, "w");
         if (archivo != NULL)
         {

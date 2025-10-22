@@ -329,7 +329,7 @@ void registrar_compras()
         fwrite(&compras[0], sizeof(compra), 1, archivo);
 
         cantidad++;
-        system("cls");
+        system("clear");
         printf("Compra guardada (%d/20)\n", cantidad);
 
         // Mostrar los datos ingresados
@@ -358,7 +358,7 @@ void registrar_compras()
                 }
             } while (agregar == -1);
 
-            system("cls");
+            system("clear");
         }
         else
         {

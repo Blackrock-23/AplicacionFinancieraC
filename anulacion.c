@@ -227,7 +227,7 @@ int anular_compra()
         return 0;
     }
 
-    system("cls");
+   system("clear");
 
     // Buscar y anular la compra
     return buscarYAnularCompra(referencia, ultimopan, cvv);
