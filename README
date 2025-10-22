@@ -13,11 +13,17 @@ Archivos principales
 - [main.c] — menú principal y flujo de la aplicación. 
 
 - [compra.h] — definición del tipo `compra` y macros (`MAX_COMPRAS`, [`ARCHIVO`](compra.h)).  
+
 - [compra.c](compra.c) — ingreso, validaciones (PAN/Luhn, CVV, fecha), franquicia, ocultar PAN, unir PAN, impresión y registro. Contiene funciones como [`ingreso_dato`](compra.c), [`validar_tarjeta`](compra.c), [`pan_oculto`](compra.c), [`pan_unido`](compra.c).  
+
 - [anulacion.c](anulacion.c) / [anulacion.h](anulacion.h) — entrada de datos y lógica de anulación (`ingresarReferencia`, `ingresarUltimosPan`, `ingresarCVV`, [`buscarYAnularCompra`](anulacion.c)).  
-- [reimpresion.c](reimpresion.c) / [reimpresion.h](reimpresion.h) — muestra compras y navegación (`mostrar_hint`, `pedir_tecla_valida`, [`reimprimir_compras`](reimpresion.c)).  
+
+- [reimpresion.c](reimpresion.c) / [reimpresion.h](reimpresion.h) — muestra compras y navegación (`mostrar_hint`, `pedir_tecla_valida`, [`reimprimir_compras`](reimpresion.c)). 
+
 - [reportes.c](reportes.c) / [reportes.h](reportes.h) — cálculo y muestra de totales (compras activas/anuladas/monto total) [`generar_reportes`](reportes.c).  
+
 - [cierre.c](cierre.c) / [cierre.h](cierre.h) — genera reporte y pregunta para borrar el archivo de datos [`realizar_cierre`](cierre.c).  
+
 - [makefile](makefile) — scripts para compilar y ejecutar.
 
 

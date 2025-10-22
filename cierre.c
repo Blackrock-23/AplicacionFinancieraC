@@ -42,6 +42,7 @@ int realizar_cierre()
         if (archivo != NULL)
         {
             fclose(archivo);
+            //se genera un mensaje de cierre exitoso
             printf("---------------------------------------------\n");
             printf("                CIERRE EXITOSO\n");
             printf("---------------------------------------------\n");
