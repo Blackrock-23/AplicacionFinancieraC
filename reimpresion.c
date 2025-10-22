@@ -42,7 +42,7 @@ int reimprimir_compras()
     // Bucle principal para navegar entre las compras
     while (1)
     {
-        system("cls");
+        system("clear");
 
         // Encabezado
         printf("================================ REIMPRESION ==================================================\n");
@@ -83,7 +83,8 @@ int reimprimir_compras()
         else
         {
             printf("Tecla no valida.\n");
-            system("pause");
+            printf("Ingrese cualquier letra para continuar ...");
+            getchar();
         }
     }
 
