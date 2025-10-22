@@ -38,7 +38,7 @@ int main()
             opcion = 0;
         }
 
-        system("cls");
+        system("clear");
 
         switch (opcion)
         {
