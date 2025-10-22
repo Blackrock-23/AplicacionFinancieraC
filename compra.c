@@ -9,7 +9,7 @@
 void ingreso_dato(compra *com)
 {
     printf("- - - - - - - - - - - - - - - - - - - - - - - - -\n ");
-    printf("Ingrese la letra 'p' si quiere cancelar la compra\n ");
+    printf("    Ingrese 'p' si quiere salir de compra\n ");
     printf("- - - - - - - - - - - - - - - - - - - - - - - - -\n ");
     printf("---------- Nueva compra ------------\n");
 
@@ -62,6 +62,10 @@ void ingreso_dato(compra *com)
 
         strcpy(com->pan, entrada);
 
+        if(!validar_tarjeta(com->pan)){
+            printf("PAN mal ingresado, intente nuevamente\n");
+        }
+
     } while (!validar_tarjeta(com->pan));
 
     // cvv
@@ -81,6 +85,10 @@ void ingreso_dato(compra *com)
         }
 
         strcpy(com->cvv, entrada);
+
+        if(!validar_cvv(com->cvv)){
+            printf("PAN mal ingresado, intente nuevamente\n");
+        }
 
     } while (!validar_cvv(com->cvv));
 

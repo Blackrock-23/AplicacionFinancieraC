@@ -203,7 +203,7 @@ int anular_compra()
     char cvv[10];
 
     printf("- - - - - - - - - - - - - - - - - - - - - - - - -\n ");
-    printf("Ingrese la letra 'p' si quiere cancelar la compra\n ");
+    printf("Ingrese 'p' si quiere salir de anulacion\n ");
     printf("- - - - - - - - - - - - - - - - - - - - - - - - -\n ");
 
     // Ingresar referencia
