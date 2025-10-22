@@ -12,7 +12,9 @@ int generar_reportes()
     FILE *archivo = fopen(ARCHIVO, "r");
     if (!archivo)
     {
-        printf("Error al abrir el archivo\n");
+        printf("---------------------------------------------\n");
+        printf("       Error al abrir el archivo\n");
+        printf("---------------------------------------------\n");
         return 0;
     }
 
@@ -47,16 +49,18 @@ int generar_reportes()
     fclose(archivo);
     if (cantidad == 0)
     {
-        printf("No hay compras registradas.\n");
+        printf("---------------------------------------------\n");
+        printf("      No hay compras registradas.\n");
+        printf("---------------------------------------------\n");
         return 0;
     }
 
     // Mostrar el reporte
-    printf("----- Reporte de Compras -----\n");
+    printf("----- Reporte de Compras ------------------------\n");
     printf("Total de compras registradas: %d\n", cantidad);
     printf("Total de compras activas: %d\n", activas);
     printf("Total de compras anuladas: %d\n", anuladas);
     printf("Monto total de todas las compras: %.2lf\n", total_monto);
-    printf("------------------------------\n");
+    printf("-------------------------------------------------\n");
     return 1;
 }

@@ -19,7 +19,10 @@ void ingreso_dato(compra *com)
     do
     {
         printf("Ingrese el monto de la compra en dolares (00.00): ");
-        gets(entrada);
+        if (fgets(entrada, sizeof(entrada), stdin) != NULL)
+        {
+            entrada[strcspn(entrada, "\n")] = '\0';
+        }
 
         if (strcmp(entrada, "p") == 0 || strcmp(entrada, "P") == 0)
         {
@@ -30,6 +33,7 @@ void ingreso_dato(compra *com)
 
         if (validar_monto(entrada))
         {
+            // atof convierte una cadena en un float
             com->monto_compra = atof(entrada);
             break;
         }
@@ -43,7 +47,12 @@ void ingreso_dato(compra *com)
     do
     {
         printf("Ingrese el PAN (Numero de tarjeta sin puntos ni letras): ");
-        gets(entrada);
+
+        if (fgets(entrada, sizeof(entrada), stdin) != NULL)
+        {
+            entrada[strcspn(entrada, "\n")] = '\0';
+        }
+
         if (strcmp(entrada, "p") == 0 || strcmp(entrada, "P") == 0)
         {
             com->monto_compra = -1;
@@ -59,7 +68,10 @@ void ingreso_dato(compra *com)
     do
     {
         printf("Ingrese el CVV (Solo 3 o 4 digitos): ");
-        gets(entrada);
+        if (fgets(entrada, sizeof(entrada), stdin) != NULL)
+        {
+            entrada[strcspn(entrada, "\n")] = '\0';
+        }
 
         if (strcmp(entrada, "p") == 0 || strcmp(entrada, "P") == 0)
         {
@@ -76,7 +88,10 @@ void ingreso_dato(compra *com)
     do
     {
         printf("Ingrese la fecha de expiracion (MM/AA): ");
-        gets(entrada);
+        if (fgets(entrada, sizeof(entrada), stdin) != NULL)
+        {
+            entrada[strcspn(entrada, "\n")] = '\0';
+        }
 
         if (strcmp(entrada, "p") == 0 || strcmp(entrada, "P") == 0)
         {
@@ -327,7 +342,10 @@ void registrar_compras()
             do
             {
                 printf("Desea registrar otra compra (1=Si, 0=No): ");
-                gets(entrada);
+                if (fgets(entrada, sizeof(entrada), stdin) != NULL)
+                {
+                    entrada[strcspn(entrada, "\n")] = '\0';
+                }
 
                 if (strlen(entrada) == 1 && entrada[0] >= '0' && entrada[0] <= '1')
                 {

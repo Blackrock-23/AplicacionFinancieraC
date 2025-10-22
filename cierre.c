@@ -17,7 +17,10 @@ int realizar_cierre()
     do
     {
         printf("Desea borrar todas las compras registradas? (s/n): ");
-        gets(entrada);
+        if (fgets(entrada, sizeof(entrada), stdin) != NULL)
+        {
+            entrada[strcspn(entrada, "\n")] = '\0';
+        }
 
         // Validamos que solo se ingrese un caracter y sea 's' o 'n'
         if (strlen(entrada) == 1)
@@ -39,7 +42,10 @@ int realizar_cierre()
         if (archivo != NULL)
         {
             fclose(archivo);
-            printf("Cierre realizado. Todas las compras han sido borradas.\n");
+            //se genera un mensaje de cierre exitoso
+            printf("---------------------------------------------\n");
+            printf("                CIERRE EXITOSO\n");
+            printf("---------------------------------------------\n");
         }
         else
         {

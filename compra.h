@@ -16,7 +16,9 @@ typedef struct
 
 // definiciones
 #define MAX_COMPRAS 20
-#define ARCHIVO "compras.bin"
+
+// Se define archivo .dat
+#define ARCHIVO "compras.dat"
 
 // Prototipos de funciones
 void ingreso_dato(compra *com);

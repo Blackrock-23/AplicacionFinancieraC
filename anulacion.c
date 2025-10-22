@@ -12,7 +12,10 @@ int ingresarReferencia(char *referencia)
     do
     {
         printf("Ingrese la referencia de la compra a anular: ");
-        gets(referencia);
+        if (fgets(referencia, sizeof(referencia), stdin) != NULL)
+        {
+            referencia[strcspn(referencia, "\n")] = '\0';
+        }
 
         if (strcmp(referencia, "p") == 0 || strcmp(referencia, "P") == 0)
         {
@@ -40,7 +43,10 @@ int ingresarUltimosPan(char *ultimopan)
     do
     {
         printf("Ingrese los ultimos 4 digitos del PAN: ");
-        gets(ultimopan);
+        if (fgets(ultimopan, sizeof(ultimopan), stdin) != NULL)
+        {
+            ultimopan[strcspn(ultimopan, "\n")] = '\0';
+        }
 
         if (strcmp(ultimopan, "p") == 0 || strcmp(ultimopan, "P") == 0)
         {
@@ -80,7 +86,10 @@ int ingresarCVV(char *cvv)
     do
     {
         printf("Ingrese el CVV: ");
-        gets(cvv);
+        if (fgets(cvv, sizeof(cvv), stdin) != NULL)
+        {
+            cvv[strcspn(cvv, "\n")] = '\0';
+        }
 
         if (strcmp(cvv, "p") == 0 || strcmp(cvv, "P") == 0)
         {
@@ -99,9 +108,10 @@ int ingresarCVV(char *cvv)
             }
         }
 
-        if (largo != 4 || !es_numerico)
+        //valida que sean exactamente 4 o 3 dijitos
+        if ((largo < 3 && largo > 4) || !es_numerico)
         {
-            printf(" El CVV debe tener exactamente 4 digitos numericos.\n");
+            printf(" El CVV debe tener exactamente 4 o 3 digitos numericos.\n");
             valido = 0;
         }
         else
@@ -149,7 +159,9 @@ int buscarYAnularCompra(const char *referencia, const char *ultimopan, const cha
             }
             else
             {
-                printf(" PAN o CVV incorrectos.\n");
+                printf("---------------------------------------------\n");
+                printf("          PAN o CVV incorrectos.\n");
+                printf("---------------------------------------------\n");
                 return 0;
             }
         }
@@ -157,7 +169,9 @@ int buscarYAnularCompra(const char *referencia, const char *ultimopan, const cha
 
     if (!encontrada)
     {
+        printf("---------------------------------------------\n");
         printf(" Compra con referencia %s no encontrada.\n", referencia);
+        printf("---------------------------------------------\n");
         return 0;
     }
 
@@ -174,7 +188,10 @@ int buscarYAnularCompra(const char *referencia, const char *ultimopan, const cha
     }
 
     fclose(archivo);
-    printf(" Compra anulada correctamente.\n");
+    //se genera un mensaje de annulacion exitosa
+    printf("---------------------------------------------\n");
+    printf("         Compra anulada exitosamente.\n");
+    printf("---------------------------------------------\n");
     return 1;
 }
 
@@ -191,7 +208,7 @@ int anular_compra()
 
     // Ingresar referencia
     if (!ingresarReferencia(referencia))
-    {   
+    {
         printf("Cancelando la anulacion...\n");
         return 0;
     }
