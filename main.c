@@ -23,7 +23,10 @@ int main()
         printf("               5. CIERRE\n");
         printf("               6. SALIR\n");
         printf("Seleccione una opcion: ");
-        gets(entrada);
+        if (fgets(entrada, sizeof(entrada), stdin) != NULL)
+        {
+            entrada[strcspn(entrada, "\n")] = '\0';
+        }
 
         // Validamos que la entrada sea un solo caracter y este entre '1' y '6'
         if (strlen(entrada) == 1 && entrada[0] >= '1' && entrada[0] <= '6')

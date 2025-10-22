@@ -30,7 +30,9 @@ int reimprimir_compras()
 
     if (cantidad == 0)
     {
-        printf("No hay compras registradas.\n");
+        printf("---------------------------------------------\n");
+        printf("       No hay compras registradas.\n");
+        printf("---------------------------------------------\n");
         return 0;
     }
 
@@ -48,9 +50,8 @@ int reimprimir_compras()
                "Ref", "Monto", "Franquicia", "PAN", "CVV", "Fecha", "Estado");
         printf("===============================================================================================\n");
 
-
         char pan_formateado[32];
-        //Llamar a la funcion para ocultar el pan
+        // Llamar a la funcion para ocultar el pan
         pan_oculto(compras[indice].pan, pan_formateado);
 
         printf("%-5s %-13.2lf %-15s %-18s %-6s %-8s %-8s\n",
@@ -70,9 +71,9 @@ int reimprimir_compras()
         tecla = pedir_tecla_valida();
 
         // Acciones
-        if (tecla == 'a' && indice > 0)
+        if (tecla == 'd' && indice > 0)
             indice--;
-        else if (tecla == 'd' && indice < cantidad - 1)
+        else if (tecla == 'a' && indice < cantidad - 1)
             indice++;
         else if (tecla == 's')
         {
@@ -93,12 +94,14 @@ int reimprimir_compras()
 void mostrar_hint(int indice, int cantidad)
 {
     printf("\n");
-    if (indice > 0)
-        printf("<-- (a) ");
+    // Si aún puedes ir hacia compras más recientes
+    if (indice < cantidad - 1)
+        printf("<-- (a) "); // izquierda
     else
         printf("         ");
-    if (indice < cantidad - 1)
-        printf("(d) -->   ");
+    // Si aún puedes ir hacia compras más antiguas
+    if (indice > 0)
+        printf("(d) -->   "); // derecha
     printf("(s) Salir\n");
 }
 
@@ -111,7 +114,10 @@ char pedir_tecla_valida()
     while (1)
     {
         printf("Ingrese una tecla: ");
-        gets(entrada);
+        if (fgets(entrada, sizeof(entrada), stdin) != NULL)
+        {
+            entrada[strcspn(entrada, "\n")] = '\0';
+        }
 
         // Validar que solo haya un carácter
         if (entrada[1] != '\0')
